@@ -7,7 +7,7 @@ import csv
 
 datas = []
 for tab_idx in range(1, 22):
-    with open(f"html/Predictions Overview - CoinCheckup{tab_idx}.html") as file:
+    with open(f"html/20190208/predictions/Predictions Overview - CoinCheckup{tab_idx}.html") as file:
         soup = BeautifulSoup(file.read(), 'html.parser')
 
         cryptos = [link.string for link in soup.find_all('a') if link.get("href") and "coins" in link.get("href")]
@@ -19,7 +19,7 @@ for tab_idx in range(1, 22):
         datas.append(data)
 
 
-with open('coincheckup_9_months.csv', 'w', newline='') as csvfile:
+with open('coincheckup_10_months_predictions.csv', 'w', newline='') as csvfile:
     writer = csv.writer(csvfile, delimiter=',')
     writer.writerow([span.string for span in soup.find_all(role="columnheader")])
     for data in datas:
