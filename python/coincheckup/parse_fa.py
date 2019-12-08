@@ -7,8 +7,8 @@ import csv
 
 def current():
     datas = []
-    for tab_idx in range(1, 20):
-        with open(f"html/20191205/fundamental_analysis/FA_Page{tab_idx}.htm") as file:
+    for tab_idx in range(1, 21):
+        with open(f"html/20191205/fundamental_analysis/Analysis Overview - CoinCheckup{tab_idx}.html") as file:
             soup = BeautifulSoup(file.read(), 'html.parser')
 
             cryptos = [link.string for link in soup.find_all('a') if link.get("href") and "coins" in link.get("href")]
