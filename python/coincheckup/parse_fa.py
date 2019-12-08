@@ -16,8 +16,8 @@ def current():
             divs = [row for row in soup.find_all(attrs={"class": re.compile("ag-row ag-row-no-focus ag-row-\w* ag-row-level-0")}) if
                     row.div is not None and row.contents[1].img is None]
             data = [[cryptos[idx]] + [div.contents[i].string if div.contents[i].div is None else div.contents[i].div.string for i in range(len(div.contents)-1) if i != 1] for idx, div in enumerate(divs)]
-
             for d in data:
+                print(d)
                 for i in range(len(d)):
                     if d[i] is not None:  # Some 200d values are None
                         d[i] = d[i].strip("$% ")    # MM and K units should be handled here
@@ -50,8 +50,16 @@ def ten_months():
 
             for d in data:
                 for i in range(len(d)):
-                    if d[i] is not None:  # Some 200d values are None
-                        d[i] = d[i].strip("$% ")
+                    ### WARNING: I modify this part because there is a column that is useless
+                    if i <=2 :
+                        if i == 2 :
+                            continue
+                        if d[i] is not None:  # Some 200d values are None
+                            d[i] = d[i].strip("$% ")
+
+                    else :
+                        if d[i] is not None:  # Some 200d values are None
+                            d[i-1] = d[i].strip("$% ")
             datas.append(data)
 
     with open('coincheckup_10_months_fa.csv', 'w', newline='') as csvfile:
