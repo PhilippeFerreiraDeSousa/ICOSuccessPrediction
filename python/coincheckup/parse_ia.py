@@ -7,6 +7,7 @@ import csv
 
 def current():
     datas = []
+    numeration=1
     for tab_idx in range(1, 25):
         with open(f"html/20191205/investment_analysis/Investment Overview - CoinCheckup{tab_idx}.html") as file:
             soup = BeautifulSoup(file.read(), 'html.parser')
@@ -17,21 +18,23 @@ def current():
                     row.div is not None and row.contents[1].img is None]
 
             data = [[cryptos[idx]] + [cell.string.strip("$% ").replace(',', '') for cell in div.children] for idx, div in enumerate(divs)]
+
             datas.append(data)
 
-            print(tab_idx)
+
 
     with open('coincheckup_current_ia.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile, delimiter=',')
         writer.writerow([span.string for span in soup.find_all(role="columnheader")[1:] if span.string is not None])
         for data in datas:
             for row in data:
+                data.insert
                 writer.writerow(row)
 
 
 def ten_months():
     datas = []
-    for tab_idx in range(1, 22):    # First page is missing and 2nd / 6th page contain no data (n/A everywhere)
+    for tab_idx in range(1, 22):
         with open(f"html/20190208/investment_analysis/Investment Overview - CoinCheckup{tab_idx}.html") as file:
             soup = BeautifulSoup(file.read(), 'html.parser')
 
