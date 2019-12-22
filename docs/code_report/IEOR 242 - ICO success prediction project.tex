@@ -1,0 +1,1818 @@
+
+% Default to the notebook output style
+
+
+
+
+% Inherit from the specified cell style.
+
+
+
+
+
+\documentclass[11pt]{article}
+
+
+
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+
+
+
+
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{IEOR 242 - ICO success prediction project\\Annotated code}
+
+
+
+
+
+
+    % Pygments definitions
+
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+
+
+
+    \begin{document}
+
+
+    \maketitle
+    
+\subsection{Annotated R Code}
+
+
+    \hypertarget{dead-coin-prediction}{%
+\subsubsection{Dead coin prediction}\label{dead-coin-prediction}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{k+kn}{library}\PY{p}{(}caret\PY{p}{)}
+        \PY{k+kn}{library}\PY{p}{(}MASS\PY{p}{)}
+        \PY{k+kn}{library}\PY{p}{(}caTools\PY{p}{)}
+        \PY{k+kn}{library}\PY{p}{(}randomForest\PY{p}{)}
+        \PY{k+kn}{library}\PY{p}{(}ggplot2\PY{p}{)}
+        \PY{k+kn}{library}\PY{p}{(}GGally\PY{p}{)}
+        \PY{k+kn}{library}\PY{p}{(}car\PY{p}{)}
+        \PY{k+kn}{library}\PY{p}{(}rpart\PY{p}{)}
+        \PY{k+kn}{library}\PY{p}{(}rattle\PY{p}{)}
+        \PY{k+kn}{library}\PY{p}{(}boot\PY{p}{)}
+        \PY{k+kn}{library}\PY{p}{(}dplyr\PY{p}{)}
+        \PY{k+kn}{library}\PY{p}{(}ROCR\PY{p}{)}
+
+        mean\PYZus{}squared\PYZus{}error \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kr}{function}\PY{p}{(}responses\PY{p}{,} predictions\PY{p}{)} \PY{p}{\PYZob{}}
+          MSE \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{mean}\PY{p}{(}\PY{p}{(}\PY{p}{(}responses \PY{o}{\PYZhy{}} predictions\PY{p}{)}\PY{p}{)}\PY{o}{\PYZca{}}\PY{l+m}{2}\PY{p}{)}
+          \PY{k+kr}{return}\PY{p}{(}MSE\PY{p}{)}
+        \PY{p}{\PYZcb{}}
+
+        mean\PYZus{}absolute\PYZus{}error \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kr}{function}\PY{p}{(}responses\PY{p}{,} predictions\PY{p}{)} \PY{p}{\PYZob{}}
+          MAE \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{mean}\PY{p}{(}\PY{k+kp}{abs}\PY{p}{(}responses \PY{o}{\PYZhy{}} predictions\PY{p}{)}\PY{p}{)}
+          \PY{k+kr}{return}\PY{p}{(}MAE\PY{p}{)}
+        \PY{p}{\PYZcb{}}
+
+        OS\PYZus{}R\PYZus{}squared \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kr}{function}\PY{p}{(}responses\PY{p}{,} predictions\PY{p}{,} train\PYZus{}responses\PY{p}{)} \PY{p}{\PYZob{}}
+          baseline \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{mean}\PY{p}{(}train\PYZus{}responses\PY{p}{)}
+          SSE \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{sum}\PY{p}{(}\PY{p}{(}responses \PY{o}{\PYZhy{}} predictions\PY{p}{)}\PY{o}{\PYZca{}}\PY{l+m}{2}\PY{p}{)}
+          SST \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{sum}\PY{p}{(}\PY{p}{(}responses \PY{o}{\PYZhy{}} baseline\PY{p}{)}\PY{o}{\PYZca{}}\PY{l+m}{2}\PY{p}{)}
+          r2 \PY{o}{\PYZlt{}\PYZhy{}} \PY{l+m}{1} \PY{o}{\PYZhy{}} SSE\PY{o}{/}SST
+          \PY{k+kr}{return}\PY{p}{(}r2\PY{p}{)}
+        \PY{p}{\PYZcb{}}
+
+        all\PYZus{}metrics \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kr}{function}\PY{p}{(}responses\PY{p}{,} predictions\PY{p}{,} train\PYZus{}responses\PY{p}{)} \PY{p}{\PYZob{}}
+          filter\PYZus{}vec \PY{o}{=} \PY{o}{!}\PY{k+kp}{is.na}\PY{p}{(}responses\PY{p}{)} \PY{o}{\PYZam{}} \PY{o}{!}\PY{k+kp}{is.na}\PY{p}{(}predictions\PY{p}{)}
+          responses \PY{o}{\PYZlt{}\PYZhy{}} responses\PY{p}{[}filter\PYZus{}vec\PY{p}{]}
+          predictions \PY{o}{\PYZlt{}\PYZhy{}} predictions\PY{p}{[}filter\PYZus{}vec\PY{p}{]}
+          train\PYZus{}responses \PY{o}{\PYZlt{}\PYZhy{}} train\PYZus{}responses\PY{p}{[}filter\PYZus{}vec\PY{p}{]}
+          mse \PY{o}{\PYZlt{}\PYZhy{}} mean\PYZus{}squared\PYZus{}error\PY{p}{(}responses\PY{p}{,} predictions\PY{p}{)}
+          mae \PY{o}{\PYZlt{}\PYZhy{}} mean\PYZus{}absolute\PYZus{}error\PY{p}{(}responses\PY{p}{,} predictions\PY{p}{)}
+          OSR2 \PY{o}{\PYZlt{}\PYZhy{}} OS\PYZus{}R\PYZus{}squared\PY{p}{(}responses\PY{p}{,} predictions\PY{p}{,} train\PYZus{}responses\PY{p}{)}
+          \PY{k+kr}{return}\PY{p}{(}\PY{k+kt}{c}\PY{p}{(}mse\PY{p}{,} mae\PY{p}{,} OSR2\PY{p}{)}\PY{p}{)}
+        \PY{p}{\PYZcb{}}
+
+        tableAccuracy \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kr}{function}\PY{p}{(}label\PY{p}{,} pred\PY{p}{)} \PY{p}{\PYZob{}}
+          t \PY{o}{=} \PY{k+kp}{table}\PY{p}{(}label\PY{p}{,} pred\PY{p}{)}
+          a \PY{o}{=} \PY{k+kp}{sum}\PY{p}{(}\PY{k+kp}{diag}\PY{p}{(}\PY{k+kp}{t}\PY{p}{)}\PY{p}{)}\PY{o}{/}\PY{k+kp}{length}\PY{p}{(}label\PY{p}{)}
+          \PY{k+kr}{return}\PY{p}{(}a\PY{p}{)}
+        \PY{p}{\PYZcb{}}
+
+        tableTPR \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kr}{function}\PY{p}{(}label\PY{p}{,} pred\PY{p}{)} \PY{p}{\PYZob{}}
+          t \PY{o}{=} \PY{k+kp}{table}\PY{p}{(}label\PY{p}{,} pred\PY{p}{)}
+          \PY{k+kr}{return}\PY{p}{(}\PY{k+kp}{t}\PY{p}{[}\PY{l+m}{2}\PY{p}{,}\PY{l+m}{2}\PY{p}{]}\PY{o}{/}\PY{p}{(}\PY{k+kp}{t}\PY{p}{[}\PY{l+m}{2}\PY{p}{,}\PY{l+m}{1}\PY{p}{]} \PY{o}{+} \PY{k+kp}{t}\PY{p}{[}\PY{l+m}{2}\PY{p}{,}\PY{l+m}{2}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        \PY{p}{\PYZcb{}}
+
+        tableFPR \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kr}{function}\PY{p}{(}label\PY{p}{,} pred\PY{p}{)} \PY{p}{\PYZob{}}
+          t \PY{o}{=} \PY{k+kp}{table}\PY{p}{(}label\PY{p}{,} pred\PY{p}{)}
+          \PY{k+kr}{return}\PY{p}{(}\PY{k+kp}{t}\PY{p}{[}\PY{l+m}{1}\PY{p}{,}\PY{l+m}{2}\PY{p}{]}\PY{o}{/}\PY{p}{(}\PY{k+kp}{t}\PY{p}{[}\PY{l+m}{1}\PY{p}{,}\PY{l+m}{1}\PY{p}{]} \PY{o}{+} \PY{k+kp}{t}\PY{p}{[}\PY{l+m}{1}\PY{p}{,}\PY{l+m}{2}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+        \PY{p}{\PYZcb{}}
+\end{Verbatim}
+
+    We load the preprocessed data:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} df \PY{o}{\PYZlt{}\PYZhy{}} read.csv\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{../python/coincheckup/dataset.csv\PYZdq{}}\PY{p}{,} stringsAsFactors\PY{o}{=}\PY{k+kc}{FALSE}\PY{p}{,} na\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+        df\PY{o}{\PYZdl{}}label\PYZus{}disappeared \PY{o}{=} \PY{k+kp}{as.factor}\PY{p}{(}df\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} name and Symbol are the only strings}
+\end{Verbatim}
+
+    \begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\tightlist
+\item
+  Logistic regression
+\end{enumerate}
+
+We begin with a logistic regression on the features which are numeric
+and nhave a very low rate of NAs:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{k+kp}{set.seed}\PY{p}{(}\PY{l+m}{42}\PY{p}{)}
+        split \PY{o}{=} sample.split\PY{p}{(}df\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{,} SplitRatio \PY{o}{=} \PY{l+m}{0.7}\PY{p}{)}
+        train\PYZus{}data \PY{o}{\PYZlt{}\PYZhy{}} filter\PY{p}{(}df\PY{p}{,} split\PY{o}{==} \PY{k+kc}{TRUE}\PY{p}{)}
+        test\PYZus{}data \PY{o}{\PYZlt{}\PYZhy{}} filter\PY{p}{(}df\PY{p}{,} split\PY{o}{==} \PY{k+kc}{FALSE}\PY{p}{)}
+
+        \PY{k+kp}{table}\PY{p}{(}train\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{)}
+        \PY{k+kp}{table}\PY{p}{(}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{}LOGISTIC}
+        logistic \PY{o}{\PYZlt{}\PYZhy{}} glm\PY{p}{(}label\PYZus{}disappeared \PY{o}{\PYZti{}} Price \PY{o}{+} X1h \PY{o}{+} X24h \PY{o}{+} X7d \PY{o}{+} X14d \PY{o}{+} X30d \PY{o}{+} X45d \PY{o}{+}
+        		X90d \PY{o}{+} X200d \PY{o}{+} Mkt..Cap \PY{o}{+} X24h.Vol \PY{o}{+} Circ..Supply \PY{o}{+} Total.Supply \PY{o}{+}
+        		Team \PY{o}{+} Product \PY{o}{+} Coin \PY{o}{+} Social \PY{o}{+} Communication \PY{o}{+} Business \PY{o}{+}
+        		Avg..volume \PY{o}{+} Age..mo.\PY{p}{,} data \PY{o}{=} train\PYZus{}data\PY{p}{,} family\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{binomial\PYZdq{}}\PY{p}{)}
+        \PY{k+kp}{summary}\PY{p}{(}logistic\PY{p}{)}
+
+        pred \PY{o}{=} predict\PY{p}{(}logistic\PY{p}{,} newdata \PY{o}{=} test\PYZus{}data\PY{p}{,} type\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{response\PYZdq{}}\PY{p}{)}
+
+        \PY{k+kp}{table}\PY{p}{(}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{,} pred\PY{o}{\PYZgt{}}\PY{l+m}{0.2}\PY{p}{)}
+
+        tableAccuracy\PY{p}{(}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{,} pred\PY{o}{\PYZgt{}}\PY{l+m}{0.2}\PY{p}{)}
+        tableTPR\PY{p}{(}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{,} pred\PY{o}{\PYZgt{}}\PY{l+m}{0.2}\PY{p}{)}
+        tableFPR\PY{p}{(}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{,} pred\PY{o}{\PYZgt{}}\PY{l+m}{0.2}\PY{p}{)}
+
+        vif\PY{p}{(}logistic\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{verbatim}
+
+FALSE  TRUE
+ 1025   208
+    \end{verbatim}
+
+
+
+    \begin{verbatim}
+
+FALSE  TRUE
+  439    89
+    \end{verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Warning message:
+“glm.fit: fitted probabilities numerically 0 or 1 occurred”
+    \end{Verbatim}
+
+
+    \begin{verbatim}
+
+Call:
+glm(formula = label_disappeared ~ Price + X1h + X24h + X7d +
+    X14d + X30d + X45d + X90d + X200d + Mkt..Cap + X24h.Vol +
+    Circ..Supply + Total.Supply + Team + Product + Coin + Social +
+    Communication + Business + Avg..volume + Age..mo., family = "binomial",
+    data = train_data)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-1.4129  -0.6457  -0.4438  -0.2806   2.6774
+
+Coefficients:
+                Estimate Std. Error z value Pr(>|z|)
+(Intercept)    4.904e-02  4.592e-01   0.107  0.91494
+Price         -5.873e-03  1.089e-02  -0.539  0.58957
+X1h            7.936e-05  5.658e-03   0.014  0.98881
+X24h           4.684e-04  2.211e-03   0.212  0.83221
+X7d            2.764e-03  1.811e-03   1.526  0.12690
+X14d          -5.093e-04  1.361e-03  -0.374  0.70821
+X30d           5.891e-04  2.114e-03   0.279  0.78049
+X45d          -6.051e-03  2.321e-03  -2.608  0.00912 **
+X90d           2.879e-03  1.871e-03   1.539  0.12384
+X200d         -2.364e-03  2.256e-03  -1.048  0.29464
+Mkt..Cap      -5.270e-05  3.726e-04  -0.141  0.88753
+X24h.Vol      -4.836e-04  4.349e-04  -1.112  0.26623
+Circ..Supply   5.619e-05  4.204e-04   0.134  0.89366
+Total.Supply   2.683e-14  4.072e-14   0.659  0.51002
+Team          -2.397e-02  1.576e-02  -1.520  0.12847
+Product       -4.131e-03  4.869e-03  -0.848  0.39625
+Coin           7.949e-03  5.937e-03   1.339  0.18066
+Social        -1.858e-02  8.662e-03  -2.145  0.03199 *
+Communication -3.273e-03  3.600e-03  -0.909  0.36335
+Business      -3.909e-04  3.243e-03  -0.121  0.90407
+Avg..volume   -8.158e-11  8.827e-10  -0.092  0.92636
+Age..mo.       7.262e-03  5.277e-03   1.376  0.16878
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1087.97  on 1191  degrees of freedom
+Residual deviance:  954.15  on 1170  degrees of freedom
+  (41 observations deleted due to missingness)
+AIC: 998.15
+
+Number of Fisher Scoring iterations: 11
+
+    \end{verbatim}
+
+
+
+    \begin{verbatim}
+
+        FALSE TRUE
+  FALSE   307  117
+  TRUE     31   55
+    \end{verbatim}
+
+
+    0.685606060606061
+
+
+    0.63953488372093
+
+
+    0.275943396226415
+
+
+    \begin{description*}
+\item[Price] 1.02584781560209
+\item[X1h] 1.15769836383294
+\item[X24h] 2.96033449373743
+\item[X7d] 2.95185035557887
+\item[X14d] 3.24090275717362
+\item[X30d] 4.91817668782566
+\item[X45d] 4.59783289757329
+\item[X90d] 2.61198284261179
+\item[X200d] 1.91331591388318
+\item[Mkt..Cap] 1.03647241353168
+\item[X24h.Vol] 1.03491142934378
+\item[Circ..Supply] 1.05018223690908
+\item[Total.Supply] 1.03860840602233
+\item[Team] 7.10648538827917
+\item[Product] 1.81658646390026
+\item[Coin] 2.19831931567567
+\item[Social] 3.19603310898613
+\item[Communication] 1.46875216267816
+\item[Business] 1.5922862721872
+\item[Avg..volume] 1.0164595410715
+\item[Age..mo.] 1.3693268345375
+\end{description*}
+
+
+
+    Then we reduce the range of features to the relevant ones and make a
+final logistic model, that we compare to the baseline:
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} logistic \PY{o}{\PYZlt{}\PYZhy{}} glm\PY{p}{(}label\PYZus{}disappeared \PY{o}{\PYZti{}} X45d \PY{o}{+} Social \PY{o}{+} \PY{l+m}{0}\PY{p}{,} data \PY{o}{=} train\PYZus{}data\PY{p}{,}
+		family\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{binomial\PYZdq{}}\PY{p}{)}
+        \PY{k+kp}{summary}\PY{p}{(}logistic\PY{p}{)}
+
+        pred \PY{o}{=} predict\PY{p}{(}logistic\PY{p}{,} newdata \PY{o}{=} test\PYZus{}data\PY{p}{,} type\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{response\PYZdq{}}\PY{p}{)}
+
+        \PY{k+kp}{table}\PY{p}{(}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{,} pred\PY{o}{\PYZgt{}}\PY{l+m}{0.2}\PY{p}{)}
+
+        tableAccuracy\PY{p}{(}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{,} pred\PY{o}{\PYZgt{}}\PY{l+m}{0.2}\PY{p}{)}
+        tableTPR\PY{p}{(}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{,} pred\PY{o}{\PYZgt{}}\PY{l+m}{0.2}\PY{p}{)}
+        tableFPR\PY{p}{(}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{,} pred\PY{o}{\PYZgt{}}\PY{l+m}{0.2}\PY{p}{)}
+
+        \PY{c+c1}{\PYZsh{} Baseline accuracy:}
+        t\PYZus{} \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kp}{table}\PY{p}{(}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{)}
+        t\PYZus{}\PY{p}{[}\PY{l+m}{1}\PY{p}{]}\PY{o}{/}\PY{k+kp}{sum}\PY{p}{(}t\PYZus{}\PY{p}{)}
+
+        rocr.pred \PY{o}{\PYZlt{}\PYZhy{}} prediction\PY{p}{(}pred\PY{p}{,} test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{)}
+        perf \PY{o}{\PYZlt{}\PYZhy{}} performance\PY{p}{(}rocr.pred\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{tpr\PYZdq{}}\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{fpr\PYZdq{}}\PY{p}{)}
+        plot\PY{p}{(}perf\PY{p}{,} colorize \PY{o}{=} \PY{k+kc}{TRUE}\PY{p}{)}
+        abline\PY{p}{(}\PY{l+m}{0}\PY{p}{,} \PY{l+m}{1}\PY{p}{)}
+        \PY{k+kp}{as.numeric}\PY{p}{(}performance\PY{p}{(}rocr.pred\PY{p}{,} \PY{l+s}{\PYZdq{}}\PY{l+s}{auc\PYZdq{}}\PY{p}{)}\PY{o}{@}y.values\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Warning message:
+“glm.fit: fitted probabilities numerically 0 or 1 occurred”
+    \end{Verbatim}
+
+
+    \begin{verbatim}
+
+Call:
+glm(formula = label_disappeared ~ X45d + Social + 0, family = "binomial",
+    data = train_data)
+
+Deviance Residuals:
+    Min       1Q   Median       3Q      Max
+-1.1773  -0.6347  -0.4854  -0.3496   2.7011
+
+Coefficients:
+        Estimate Std. Error z value Pr(>|z|)
+X45d   -0.004062   0.001108  -3.667 0.000245 ***
+Social -0.032039   0.001607 -19.935  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1696.8  on 1224  degrees of freedom
+Residual deviance: 1011.9  on 1222  degrees of freedom
+  (9 observations deleted due to missingness)
+AIC: 1015.9
+
+Number of Fisher Scoring iterations: 8
+
+    \end{verbatim}
+
+
+
+    \begin{verbatim}
+
+        FALSE TRUE
+  FALSE   320  117
+  TRUE     37   52
+    \end{verbatim}
+
+
+    0.704545454545455
+
+
+    0.584269662921348
+
+
+    0.267734553775744
+
+
+    \textbf{FALSE:} 0.831439393939394
+
+
+    0.708919342812334
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_8.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Random Forest
+\end{enumerate}
+
+Let's begin checking the number of NAs in each column to select the
+features.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{k+kp}{sapply}\PY{p}{(}df\PY{p}{,} \PY{k+kr}{function}\PY{p}{(}x\PY{p}{)}\PY{p}{\PYZob{}} \PY{k+kp}{sum}\PY{p}{(}\PY{k+kp}{is.na}\PY{p}{(}x\PY{p}{)}\PY{p}{)} \PY{p}{\PYZcb{}}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{description*}
+\item[Name] 0
+\item[MC..] 0
+\item[Symbol] 0
+\item[Price] 0
+\item[BTC] 0
+\item[X1h] 0
+\item[X24h] 0
+\item[X7d] 0
+\item[X14d] 0
+\item[X30d] 4
+\item[X45d] 11
+\item[X90d] 22
+\item[X200d] 48
+\item[Mkt..Cap] 0
+\item[MCAP.BTC] 0
+\item[X24h.Vol] 0
+\item[X24h.Vol.BTC] 0
+\item[Circ..Supply] 0
+\item[Total.Supply] 9
+\item[Max..Supply] 1394
+\item[Team] 0
+\item[Advisors] 566
+\item[Brand.Buzz] 566
+\item[Product] 0
+\item[Coin] 0
+\item[Social] 0
+\item[Communication] 0
+\item[Business] 0
+\item[GitHub] 697
+\item[GitHub.1] 697
+\item[Avg..volume] 0
+\item[Age..mo.] 1
+\item[Winning.months] 1
+\item[label\_Price] 297
+\item[label\_Mkt..Cap] 297
+\item[label\_growth\_rate\_Price] 297
+\item[label\_growth\_rate\_Mkt..Cap] 297
+\item[label\_disappeared] 0
+\end{description*}
+
+
+
+    Now let's try a random forest with cross-validation. The dataset is not
+balanced so we try a cross-validation measured with Accuracy and then
+F1-score as Accuracy is less relevant in this case.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{k+kp}{set.seed}\PY{p}{(}\PY{l+m}{42}\PY{p}{)}
+         test\PYZus{}data\PYZus{}filled\PYZus{}with\PYZus{}0 \PY{o}{\PYZlt{}\PYZhy{}} test\PYZus{}data
+         test\PYZus{}data\PYZus{}filled\PYZus{}with\PYZus{}0\PY{p}{[}\PY{k+kp}{is.na}\PY{p}{(}test\PYZus{}data\PYZus{}filled\PYZus{}with\PYZus{}0\PY{p}{)}\PY{p}{]} \PY{o}{\PYZlt{}\PYZhy{}} \PY{l+m}{0}
+         train\PYZus{}data.mm \PY{o}{=} \PY{k+kp}{as.data.frame}\PY{p}{(}model.matrix\PY{p}{(}label\PYZus{}disappeared \PY{o}{\PYZti{}} X24h \PY{o}{+} X14d \PY{o}{+} X45d \PY{o}{+}
+         	Social \PY{o}{+} Mkt..Cap \PY{o}{+} Age..mo. \PY{o}{+} Business\PY{p}{,} data \PY{o}{=} train\PYZus{}data\PY{p}{)}\PY{p}{)}
+         test\PYZus{}data.mm \PY{o}{=} \PY{k+kp}{as.data.frame}\PY{p}{(}model.matrix\PY{p}{(}label\PYZus{}disappeared \PY{o}{\PYZti{}} X24h \PY{o}{+} X14d \PY{o}{+} X45d \PY{o}{+}
+         	Social \PY{o}{+} Mkt..Cap \PY{o}{+} Age..mo. \PY{o}{+} Business\PY{p}{,} data \PY{o}{=} test\PYZus{}data\PYZus{}filled\PYZus{}with\PYZus{}0\PY{p}{)}\PY{p}{)}
+
+         train.rf \PY{o}{\PYZlt{}\PYZhy{}} train\PY{p}{(}label\PYZus{}disappeared \PY{o}{\PYZti{}} X24h \PY{o}{+} X14d \PY{o}{+} X45d \PY{o}{+} Social \PY{o}{+} Mkt..Cap \PY{o}{+}
+                           Age..mo. \PY{o}{+} Business\PY{p}{,}
+                           data \PY{o}{=} train\PYZus{}data\PY{p}{,}
+                           method \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{rf\PYZdq{}}\PY{p}{,}
+                           na.action  \PY{o}{=} na.omit\PY{p}{,}
+                           tuneGrid \PY{o}{=} \PY{k+kt}{data.frame}\PY{p}{(}mtry\PY{o}{=}\PY{l+m}{1}\PY{o}{:}\PY{l+m}{7}\PY{p}{)}\PY{p}{,}
+                           trControl \PY{o}{=} trainControl\PY{p}{(}method\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{cv\PYZdq{}}\PY{p}{,} number\PY{o}{=}\PY{l+m}{5}\PY{p}{)}\PY{p}{,}
+                           metric \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{Accuracy\PYZdq{}}\PY{p}{)}
+         train.rf\PY{o}{\PYZdl{}}results
+         train.rf
+         best.rf \PY{o}{\PYZlt{}\PYZhy{}} train.rf\PY{o}{\PYZdl{}}finalModel
+         pred.rf \PY{o}{\PYZlt{}\PYZhy{}} predict\PY{p}{(}best.rf\PY{p}{,} newdata \PY{o}{=} test\PYZus{}data.mm\PY{p}{)} \PY{c+c1}{\PYZsh{} can use same model matrix}
+
+         ggplot\PY{p}{(}train.rf\PY{o}{\PYZdl{}}results\PY{p}{,} aes\PY{p}{(}x \PY{o}{=} mtry\PY{p}{,} y \PY{o}{=} Accuracy\PY{p}{)}\PY{p}{)} \PY{o}{+} geom\PYZus{}point\PY{p}{(}size \PY{o}{=} \PY{l+m}{3}\PY{p}{)} \PY{o}{+}
+           ylab\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{CV Accuracy\PYZdq{}}\PY{p}{)} \PY{o}{+} theme\PYZus{}bw\PY{p}{(}\PY{p}{)} \PY{o}{+} theme\PY{p}{(}axis.title\PY{o}{=}element\PYZus{}text\PY{p}{(}size\PY{o}{=}\PY{l+m}{18}\PY{p}{)}\PY{p}{,}
+           		axis.text\PY{o}{=}element\PYZus{}text\PY{p}{(}size\PY{o}{=}\PY{l+m}{18}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+\begin{tabular}{r|lllll}
+ mtry & Accuracy & Kappa & AccuracySD & KappaSD\\
+ <int> & <dbl> & <dbl> & <dbl> & <dbl>\\
+\hline
+	 1 & 0.8480651 & 0.1820981 & 0.01230487 & 0.07219353\\
+	 2 & 0.8497045 & 0.2675792 & 0.01730529 & 0.08837830\\
+	 3 & 0.8545991 & 0.3131013 & 0.01457905 & 0.07484737\\
+	 4 & 0.8505074 & 0.2927120 & 0.01216925 & 0.05062367\\
+	 5 & 0.8505175 & 0.3181606 & 0.01943042 & 0.07520890\\
+	 6 & 0.8472421 & 0.2995333 & 0.01863631 & 0.06998712\\
+	 7 & 0.8407181 & 0.2733978 & 0.02110235 & 0.08098173\\
+\end{tabular}
+
+
+
+
+    \begin{verbatim}
+Random Forest
+
+1233 samples
+   7 predictor
+   2 classes: 'FALSE', 'TRUE'
+
+No pre-processing
+Resampling: Cross-Validated (5 fold)
+Summary of sample sizes: 980, 978, 980, 979, 979
+Resampling results across tuning parameters:
+
+  mtry  Accuracy   Kappa
+  1     0.8480651  0.1820981
+  2     0.8497045  0.2675792
+  3     0.8545991  0.3131013
+  4     0.8505074  0.2927120
+  5     0.8505175  0.3181606
+  6     0.8472421  0.2995333
+  7     0.8407181  0.2733978
+
+Accuracy was used to select the optimal model using the largest value.
+The final value used for the model was mtry = 3.
+    \end{verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_12_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} f1 \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kr}{function} \PY{p}{(}data\PY{p}{,} lev \PY{o}{=} \PY{k+kc}{NULL}\PY{p}{,} model \PY{o}{=} \PY{k+kc}{NULL}\PY{p}{)} \PY{p}{\PYZob{}}
+           pred \PY{o}{\PYZlt{}\PYZhy{}} data\PY{o}{\PYZdl{}}pred\PY{p}{[}\PY{o}{!}\PY{k+kp}{is.na}\PY{p}{(}data\PY{o}{\PYZdl{}}pred\PY{p}{)}\PY{o}{\PYZam{}}\PY{o}{!}\PY{k+kp}{is.na}\PY{p}{(}data\PY{o}{\PYZdl{}}obs\PY{p}{)}\PY{p}{]}
+           obs \PY{o}{\PYZlt{}\PYZhy{}} data\PY{o}{\PYZdl{}}obs\PY{p}{[}\PY{o}{!}\PY{k+kp}{is.na}\PY{p}{(}data\PY{o}{\PYZdl{}}pred\PY{p}{)}\PY{o}{\PYZam{}}\PY{o}{!}\PY{k+kp}{is.na}\PY{p}{(}data\PY{o}{\PYZdl{}}obs\PY{p}{)}\PY{p}{]}
+           precision \PY{o}{\PYZlt{}\PYZhy{}} posPredValue\PY{p}{(}pred\PY{p}{,} obs\PY{p}{,} positive \PY{o}{=} lev\PY{p}{[}\PY{l+m}{2}\PY{p}{]}\PY{p}{)}
+           recall  \PY{o}{\PYZlt{}\PYZhy{}} sensitivity\PY{p}{(}pred\PY{p}{,} obs\PY{p}{,} postive \PY{o}{=} lev\PY{p}{[}\PY{l+m}{1}\PY{p}{]}\PY{p}{)}
+           f1\PYZus{}val \PY{o}{\PYZlt{}\PYZhy{}} \PY{p}{(}\PY{l+m}{2} \PY{o}{*} precision \PY{o}{*} recall\PY{p}{)} \PY{o}{/} \PY{p}{(}precision \PY{o}{+} recall\PY{p}{)}
+           \PY{k+kp}{names}\PY{p}{(}f1\PYZus{}val\PY{p}{)} \PY{o}{\PYZlt{}\PYZhy{}} \PY{k+kt}{c}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{F1\PYZdq{}}\PY{p}{)}
+           \PY{c+c1}{\PYZsh{}print(precision)}
+           \PY{c+c1}{\PYZsh{}print(recall)}
+           \PY{c+c1}{\PYZsh{}print(f1\PYZus{}val)}
+           f1\PYZus{}val
+         \PY{p}{\PYZcb{}}
+
+         train.rf \PY{o}{\PYZlt{}\PYZhy{}} train\PY{p}{(}label\PYZus{}disappeared \PY{o}{\PYZti{}} X24h \PY{o}{+} X14d \PY{o}{+} X45d \PY{o}{+} Social \PY{o}{+} Mkt..Cap \PY{o}{+}
+                           Age..mo. \PY{o}{+} Business\PY{p}{,}
+                           data \PY{o}{=} train\PYZus{}data\PY{p}{,}
+                           method \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{rf\PYZdq{}}\PY{p}{,}
+                           na.action  \PY{o}{=} na.omit\PY{p}{,}
+                           tuneGrid \PY{o}{=} \PY{k+kt}{data.frame}\PY{p}{(}mtry\PY{o}{=}\PY{l+m}{1}\PY{o}{:}\PY{l+m}{7}\PY{p}{)}\PY{p}{,}
+                           trControl \PY{o}{=} trainControl\PY{p}{(}method\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{cv\PYZdq{}}\PY{p}{,} number\PY{o}{=}\PY{l+m}{5}\PY{p}{,} summaryFunction \PY{o}{=} f1\PY{p}{)}\PY{p}{,}
+                           metric \PY{o}{=} PY{l+s}{\PYZdq{}}\PY{l+s}{F1\PYZdq{}}\PY{p}{)}
+         train.rf\PY{o}{\PYZdl{}}results
+         train.rf
+         best.rf \PY{o}{\PYZlt{}\PYZhy{}} train.rf\PY{o}{\PYZdl{}}finalModel
+         pred.rf \PY{o}{\PYZlt{}\PYZhy{}} predict\PY{p}{(}best.rf\PY{p}{,} newdata \PY{o}{=} test\PYZus{}data.mm\PY{p}{)} \PY{c+c1}{\PYZsh{} can use same model matrix}
+
+         ggplot\PY{p}{(}train.rf\PY{o}{\PYZdl{}}results\PY{p}{,} aes\PY{p}{(}x \PY{o}{=} mtry\PY{p}{,} y \PY{o}{=} F1\PY{p}{)}\PY{p}{)} \PY{o}{+} geom\PYZus{}point\PY{p}{(}size \PY{o}{=} \PY{l+m}{3}\PY{p}{)} \PY{o}{+}
+           ylab\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{CV F1\PYZdq{}}\PY{p}{)} \PY{o}{+} theme\PYZus{}bw\PY{p}{(}\PY{p}{)} \PY{o}{+} theme\PY{p}{(}axis.title\PY{o}{=}element\PYZus{}text\PY{p}{(}size\PY{o}{=}\PY{l+m}{18}\PY{p}{)}\PY{p}{,}
+           axis.text\PY{o}{=}element\PYZus{}text\PY{p}{(}size\PY{o}{=}\PY{l+m}{18}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+\begin{tabular}{r|lll}
+ mtry & F1 & F1SD\\
+ <int> & <dbl> & <dbl>\\
+\hline
+	 1 & 0.9028305 & 0.08709772\\
+	 2 & 0.7850726 & 0.07805387\\
+	 3 & 0.7611599 & 0.11121317\\
+	 4 & 0.7696718 & 0.06996851\\
+	 5 & 0.7266709 & 0.10382716\\
+	 6 & 0.7246719 & 0.11886381\\
+	 7 & 0.7067876 & 0.12034424\\
+\end{tabular}
+
+
+    \begin{verbatim}
+Random Forest
+
+1233 samples
+   7 predictor
+   2 classes: 'FALSE', 'TRUE'
+
+No pre-processing
+Resampling: Cross-Validated (5 fold)
+Summary of sample sizes: 979, 980, 979, 978, 980
+Resampling results across tuning parameters:
+
+  mtry  F1
+  1     0.9028305
+  2     0.7850726
+  3     0.7611599
+  4     0.7696718
+  5     0.7266709
+  6     0.7246719
+  7     0.7067876
+
+F1 was used to select the optimal model using the largest value.
+The final value used for the model was mtry = 1.
+    \end{verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_13_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    An mtry of 3 looks good. We can try sampling stratification to handle
+the imbalance of the data.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{k+kp}{set.seed}\PY{p}{(}\PY{l+m}{42}\PY{p}{)}
+         rare.class.prevalence \PY{o}{=} \PY{l+m}{0.2}
+         nRareSamples \PY{o}{=} \PY{l+m}{1000} \PY{o}{*} rare.class.prevalence
+         mod.rf \PY{o}{\PYZlt{}\PYZhy{}} randomForest\PY{p}{(}label\PYZus{}disappeared \PY{o}{\PYZti{}} X24h \PY{o}{+} X14d \PY{o}{+} X45d \PY{o}{+} Social \PY{o}{+} Mkt..Cap \PY{o}{+}
+         	Age..mo. \PY{o}{+} Business\PY{p}{,} data \PY{o}{=} train\PYZus{}data\PY{p}{,} mtry \PY{o}{=} \PY{l+m}{3}\PY{p}{,} nodesize \PY{o}{=} \PY{l+m}{5}\PY{p}{,} ntree \PY{o}{=} \PY{l+m}{1000}\PY{p}{,}
+         	strata\PY{o}{=}train\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{,}
+         	sampsize\PY{o}{=}\PY{k+kt}{c}\PY{p}{(}nRareSamples\PY{p}{,}nRareSamples\PY{p}{)}\PY{p}{,} na.action \PY{o}{=} na.omit\PY{p}{)}
+         \PY{c+c1}{\PYZsh{} print(mod.rf)}
+
+         pred.rf \PY{o}{\PYZlt{}\PYZhy{}} predict\PY{p}{(}mod.rf\PY{p}{,} newdata \PY{o}{=} test\PYZus{}data\PY{p}{)}
+
+         \PY{k+kp}{table}\PY{p}{(}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{,} pred.rf\PY{p}{)}
+
+         tableAccuracy\PY{p}{(}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{,} pred.rf\PY{p}{)}
+         tableTPR\PY{p}{(}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{,} pred.rf\PY{p}{)}
+         tableFPR\PY{p}{(}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{,} pred.rf\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{verbatim}
+       pred.rf
+        FALSE TRUE
+  FALSE   427   10
+  TRUE     70   19
+    \end{verbatim}
+
+
+    0.84469696969697
+
+
+    0.213483146067416
+
+
+    0.022883295194508
+
+
+    \begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Boosting
+\end{enumerate}
+
+Finally we can try a boosting method with cross-validation.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} tGrid \PY{o}{=} \PY{k+kp}{expand.grid}\PY{p}{(}n.trees \PY{o}{=} \PY{p}{(}\PY{l+m}{1}\PY{o}{:}\PY{l+m}{10}\PY{p}{)}\PY{o}{*}\PY{l+m}{1000}\PY{p}{,} interaction.depth \PY{o}{=} \PY{k+kt}{c}\PY{p}{(}\PY{l+m}{1}\PY{p}{,}\PY{l+m}{2}\PY{p}{,}\PY{l+m}{4}\PY{p}{,}\PY{l+m}{6}\PY{p}{,}\PY{l+m}{8}\PY{p}{,}\PY{l+m}{10}\PY{p}{)}\PY{p}{,}
+                             shrinkage \PY{o}{=} \PY{l+m}{0.001}\PY{p}{,} n.minobsinnode \PY{o}{=} \PY{l+m}{10}\PY{p}{)}
+
+         \PY{k+kp}{set.seed}\PY{p}{(}\PY{l+m}{42}\PY{p}{)}
+         train.boost \PY{o}{\PYZlt{}\PYZhy{}} train\PY{p}{(}label\PYZus{}disappeared \PY{o}{\PYZti{}} X24h \PY{o}{+} X14d \PY{o}{+} X45d \PY{o}{+} Social \PY{o}{+} Mkt..Cap \PY{o}{+}
+                              Age..mo. \PY{o}{+} Business\PY{p}{,}
+                              data \PY{o}{=} train\PYZus{}data\PY{p}{,}
+                              method \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{gbm\PYZdq{}}\PY{p}{,}   \PY{c+c1}{\PYZsh{}\PYZsh{} gradient boosting machine }
+                              tuneGrid \PY{o}{=} tGrid\PY{p}{,}
+                              trControl \PY{o}{=} trainControl\PY{p}{(}method\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{cv\PYZdq{}}\PY{p}{,} number\PY{o}{=}\PY{l+m}{5}\PY{p}{)}\PY{p}{,}
+                              metric \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{Accuracy\PYZdq{}}\PY{p}{,}
+                              na.action \PY{o}{=} na.omit\PY{p}{)}
+         train.boost
+         best.boost \PY{o}{\PYZlt{}\PYZhy{}} train.boost\PY{o}{\PYZdl{}}finalModel
+
+         ggplot\PY{p}{(}train.boost\PY{o}{\PYZdl{}}results\PY{p}{,} aes\PY{p}{(}x \PY{o}{=} n.trees\PY{p}{,} y \PY{o}{=} Accuracy\PY{p}{,} colour \PY{o}{=}
+           \PY{k+kp}{as.factor}\PY{p}{(}interaction.depth\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{o}{+} geom\PYZus{}line\PY{p}{(}\PY{p}{)} \PY{o}{+}
+           ylab\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{CV Accuracy\PYZdq{}}\PY{p}{)} \PY{o}{+} theme\PYZus{}bw\PY{p}{(}\PY{p}{)} \PY{o}{+} theme\PY{p}{(}axis.title\PY{o}{=}element\PYZus{}text\PY{p}{(}size\PY{o}{=}\PY{l+m}{18}\PY{p}{)}\PY{p}{,}
+           axis.text\PY{o}{=}element\PYZus{}text\PY{p}{(}size\PY{o}{=}\PY{l+m}{18}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+           scale\PYZus{}color\PYZus{}discrete\PY{p}{(}name \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{interaction.depth\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{verbatim}
+Stochastic Gradient Boosting
+
+1233 samples
+   7 predictor
+   2 classes: 'FALSE', 'TRUE'
+
+No pre-processing
+Resampling: Cross-Validated (5 fold)
+Summary of sample sizes: 980, 978, 980, 979, 979
+
+Tuning parameter 'shrinkage' was held constant at a value of 0.001
+
+Tuning parameter 'n.minobsinnode' was held constant at a value of 10
+Accuracy was used to select the optimal model using the largest value.
+The final values used for the model were n.trees = 2000, interaction.depth =
+ 8, shrinkage = 0.001 and n.minobsinnode = 10.
+    \end{verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_17_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    We choose n.trees = 2000, interaction.depth = 8.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} pred.best.boost \PY{o}{\PYZlt{}\PYZhy{}} predict\PY{p}{(}best.boost\PY{p}{,} newdata \PY{o}{=} test\PYZus{}data.mm\PY{p}{,} n.trees \PY{o}{=} \PY{l+m}{2000}\PY{p}{,} 
+	interaction.depth \PY{o}{=} \PY{l+m}{8}\PY{p}{)} \PY{c+c1}{\PYZsh{} from CV plot}
+
+         \PY{k+kp}{table}\PY{p}{(}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{,} pred.best.boost\PY{o}{\PYZgt{}}\PY{l+m}{0.7}\PY{p}{)}
+
+         tableAccuracy\PY{p}{(}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{,} pred.best.boost\PY{o}{\PYZgt{}}\PY{l+m}{0.7}\PY{p}{)}
+         tableTPR\PY{p}{(}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{,} pred.best.boost\PY{o}{\PYZgt{}}\PY{l+m}{0.7}\PY{p}{)}
+         tableFPR\PY{p}{(}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}disappeared\PY{p}{,} pred.best.boost\PY{o}{\PYZgt{}}\PY{l+m}{0.7}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{verbatim}
+
+        FALSE TRUE
+  FALSE   221  218
+  TRUE     70   19
+    \end{verbatim}
+
+
+    0.454545454545455
+
+
+    0.213483146067416
+
+
+    0.496583143507973
+
+
+    \hypertarget{portfolio-determination-based-on-naive-growth-rates}{%
+\subsubsection{Portfolio determination based on naive growth
+rates}\label{portfolio-determination-based-on-naive-growth-rates}}
+
+    \begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\tightlist
+\item
+  Regression
+\end{enumerate}
+
+We try a linear model on a lot of features.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}22}]:} \PY{k+kp}{set.seed}\PY{p}{(}\PY{l+m}{42}\PY{p}{)}
+         split \PY{o}{=} sample.split\PY{p}{(}df\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{,} SplitRatio \PY{o}{=} \PY{l+m}{0.7}\PY{p}{)}
+         price\PYZus{}train\PYZus{}data \PY{o}{\PYZlt{}\PYZhy{}} filter\PY{p}{(}df\PY{p}{,} split\PY{o}{==} \PY{k+kc}{TRUE}\PY{p}{)}
+         price\PYZus{}test\PYZus{}data \PY{o}{\PYZlt{}\PYZhy{}} filter\PY{p}{(}df\PY{p}{,} split\PY{o}{==} \PY{k+kc}{FALSE}\PY{p}{)}
+
+         price\PYZus{}train\PYZus{}data \PY{o}{=} price\PYZus{}train\PYZus{}data \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} filter\PY{p}{(}\PY{k+kp}{as.integer}\PY{p}{(}label\PYZus{}disappeared\PY{p}{)}\PY{o}{==}\PY{l+m}{1}\PY{p}{)}
+         	\PY{c+c1}{\PYZsh{} we keep label\PYZus{}disappeared = FALSE}
+         price\PYZus{}test\PYZus{}data \PY{o}{=} price\PYZus{}test\PYZus{}data \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} filter\PY{p}{(}\PY{k+kp}{as.integer}\PY{p}{(}label\PYZus{}disappeared\PY{p}{)}\PY{o}{==}\PY{l+m}{1}\PY{p}{)}
+
+         mod \PY{o}{\PYZlt{}\PYZhy{}} lm\PY{p}{(}label\PYZus{}growth\PYZus{}rate\PYZus{}Price \PY{o}{\PYZti{}} Price \PY{o}{+} X1h \PY{o}{+} X24h \PY{o}{+} X7d \PY{o}{+} X14d \PY{o}{+} X30d \PY{o}{+} X45d \PY{o}{+} 
+         		X90d \PY{o}{+} X200d \PY{o}{+} Mkt..Cap \PY{o}{+} X24h.Vol \PY{o}{+} Circ..Supply \PY{o}{+} Total.Supply \PY{o}{+} 
+         		Team \PY{o}{+} Product \PY{o}{+} Coin \PY{o}{+} Social \PY{o}{+} Communication \PY{o}{+} Business \PY{o}{+} 
+         		Avg..volume \PY{o}{+} Age..mo.\PY{p}{,} data \PY{o}{=} price\PYZus{}train\PYZus{}data\PY{p}{)}
+
+         \PY{k+kp}{summary}\PY{p}{(}mod\PY{p}{)}
+
+         pred\PYZus{}lm \PY{o}{=} predict\PY{p}{(}mod\PY{p}{,} newdata \PY{o}{=} price\PYZus{}test\PYZus{}data\PY{p}{)}
+
+         all\PYZus{}metrics\PY{p}{(}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{,} pred\PYZus{}lm\PY{p}{,}
+         		price\PYZus{}train\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{verbatim}
+
+Call:
+lm(formula = label_growth_rate_Price ~ Price + X1h + X24h + X7d +
+    X14d + X30d + X45d + X90d + X200d + Mkt..Cap + X24h.Vol +
+    Circ..Supply + Total.Supply + Team + Product + Coin + Social +
+    Communication + Business + Avg..volume + Age..mo., data = price_train_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-95.323  -0.448   0.006   0.504 157.521
+
+Coefficients:
+                Estimate Std. Error t value Pr(>|t|)
+(Intercept)   -1.380e+00  1.463e+00  -0.943    0.346
+Price         -1.363e-05  9.791e-04  -0.014    0.989
+X1h            2.563e-02  2.873e-02   0.892    0.373
+X24h          -1.096e-02  9.764e-03  -1.122    0.262
+X7d           -3.442e-03  7.134e-03  -0.482    0.630
+X14d           9.311e-04  3.500e-03   0.266    0.790
+X30d           5.279e-04  4.867e-03   0.108    0.914
+X45d          -2.804e-03  2.983e-03  -0.940    0.347
+X90d           5.591e-03  5.494e-03   1.018    0.309
+X200d         -2.616e-03  5.139e-03  -0.509    0.611
+Mkt..Cap       4.964e-05  1.062e-03   0.047    0.963
+X24h.Vol       9.059e-06  1.117e-03   0.008    0.994
+Circ..Supply  -1.920e-03  1.103e-03  -1.741    0.082 .
+Total.Supply   9.642e-12  3.189e-13  30.230   <2e-16 ***
+Team           1.977e-02  4.204e-02   0.470    0.638
+Product       -6.773e-03  1.328e-02  -0.510    0.610
+Coin          -8.403e-03  1.685e-02  -0.499    0.618
+Social         3.590e-03  2.370e-02   0.151    0.880
+Communication -5.365e-03  8.557e-03  -0.627    0.531
+Business       6.493e-03  1.123e-02   0.578    0.563
+Avg..volume    2.020e-11  1.844e-09   0.011    0.991
+Age..mo.       1.896e-02  1.633e-02   1.161    0.246
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 7.24 on 962 degrees of freedom
+  (40 observations deleted due to missingness)
+Multiple R-squared:  0.4896,	Adjusted R-squared:  0.4785
+F-statistic: 43.95 on 21 and 962 DF,  p-value: < 2.2e-16
+
+    \end{verbatim}
+
+
+    \begin{enumerate*}
+\item 582.295129943916
+\item 2.15332619393653
+\item -173.530306079791
+\end{enumerate*}
+
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}23}]:} vif\PY{p}{(}mod\PY{p}{)}
+\end{Verbatim}
+
+    \begin{description*}
+\item[Price] 1.02423943344359
+\item[X1h] 1.27695002473311
+\item[X24h] 2.20857264825821
+\item[X7d] 2.20262213596122
+\item[X14d] 51.0399053125082
+\item[X30d] 57.8341308908584
+\item[X45d] 16.3502969281802
+\item[X90d] 6.77458705855804
+\item[X200d] 3.77206853766809
+\item[Mkt..Cap] 1.02694209743189
+\item[X24h.Vol] 1.02876014673704
+\item[Circ..Supply] 1.07660848685341
+\item[Total.Supply] 1.01072167422902
+\item[Team] 6.49637787342385
+\item[Product] 1.9710382752697
+\item[Coin] 1.90590139973695
+\item[Social] 3.14333047583439
+\item[Communication] 1.53408207175482
+\item[Business] 1.36185221776999
+\item[Avg..volume] 1.02165670821974
+\item[Age..mo.] 1.3028447664378
+\end{description*}
+
+
+
+    This is not good, there is some multicolinearity. Let's remove the
+guilty features.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}26}]:} mod \PY{o}{\PYZlt{}\PYZhy{}} lm\PY{p}{(}label\PYZus{}growth\PYZus{}rate\PYZus{}Price \PY{o}{\PYZti{}} Price \PY{o}{+} X1h \PY{o}{+} X24h \PY{o}{+} X7d \PY{o}{+} X30d \PY{o}{+} X90d \PY{o}{+} X200d \PY{o}{+}
+                     Mkt..Cap \PY{o}{+} X24h.Vol \PY{o}{+} Circ..Supply \PY{o}{+} Total.Supply \PY{o}{+} Team \PY{o}{+} Product \PY{o}{+} 
+                     Coin \PY{o}{+} Social \PY{o}{+} Communication \PY{o}{+} Business \PY{o}{+} Avg..volume \PY{o}{+} Age..mo.\PY{p}{,} 
+                     data \PY{o}{=} price\PYZus{}train\PYZus{}data\PY{p}{)}
+
+         \PY{k+kp}{summary}\PY{p}{(}mod\PY{p}{)}
+
+         pred\PYZus{}lm \PY{o}{=} predict\PY{p}{(}mod\PY{p}{,} newdata \PY{o}{=} price\PYZus{}test\PYZus{}data\PY{p}{)}
+
+         all\PYZus{}metrics\PY{p}{(}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{,} pred\PYZus{}lm\PY{p}{,} 
+         		price\PYZus{}train\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{verbatim}
+
+Call:
+lm(formula = label_growth_rate_Price ~ Price + X1h + X24h + X7d +
+    X30d + X90d + X200d + Mkt..Cap + X24h.Vol + Circ..Supply +
+    Total.Supply + Team + Product + Coin + Social + Communication +
+    Business + Avg..volume + Age..mo., data = price_train_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-95.222  -0.426  -0.009   0.496 157.685
+
+Coefficients:
+                Estimate Std. Error t value Pr(>|t|)
+(Intercept)   -1.506e+00  1.452e+00  -1.037   0.2999
+Price         -1.311e-05  9.783e-04  -0.013   0.9893
+X1h            2.299e-02  2.857e-02   0.805   0.4212
+X24h          -9.303e-03  9.536e-03  -0.976   0.3295
+X7d           -3.687e-03  7.124e-03  -0.517   0.6049
+X30d          -8.050e-05  9.549e-04  -0.084   0.9328
+X90d           1.554e-03  3.466e-03   0.448   0.6541
+X200d         -4.926e-04  4.608e-03  -0.107   0.9149
+Mkt..Cap       5.801e-05  1.061e-03   0.055   0.9564
+X24h.Vol       7.150e-05  1.114e-03   0.064   0.9489
+Circ..Supply  -1.902e-03  1.102e-03  -1.726   0.0846 .
+Total.Supply   9.631e-12  3.186e-13  30.233   <2e-16 ***
+Team           1.702e-02  4.190e-02   0.406   0.6847
+Product       -6.461e-03  1.327e-02  -0.487   0.6263
+Coin          -7.157e-03  1.676e-02  -0.427   0.6695
+Social         5.232e-03  2.359e-02   0.222   0.8245
+Communication -5.266e-03  8.549e-03  -0.616   0.5381
+Business       6.734e-03  1.122e-02   0.600   0.5484
+Avg..volume    1.029e-11  1.843e-09   0.006   0.9955
+Age..mo.       2.052e-02  1.613e-02   1.272   0.2037
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 7.236 on 964 degrees of freedom
+  (40 observations deleted due to missingness)
+Multiple R-squared:  0.4891,	Adjusted R-squared:  0.4791
+F-statistic: 48.58 on 19 and 964 DF,  p-value: < 2.2e-16
+
+    \end{verbatim}
+
+
+    \begin{enumerate*}
+\item 564.062942832866
+\item 1.90025594030086
+\item -168.065604361777
+\end{enumerate*}
+
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}27}]:} vif\PY{p}{(}mod\PY{p}{)}
+\end{Verbatim}
+
+    \begin{description*}
+\item[Price] 1.02383458947674
+\item[X1h] 1.26378621144891
+\item[X24h] 2.10915904620629
+\item[X7d] 2.1991343191775
+\item[X30d] 2.22872902583279
+\item[X90d] 2.69968306031107
+\item[X200d] 3.03647959935625
+\item[Mkt..Cap] 1.02665757634139
+\item[X24h.Vol] 1.02508903973853
+\item[Circ..Supply] 1.07610953486792
+\item[Total.Supply] 1.00943241102529
+\item[Team] 6.46108652227192
+\item[Product] 1.96792266463445
+\item[Coin] 1.88882024934975
+\item[Social] 3.11853701685625
+\item[Communication] 1.53321255914753
+\item[Business] 1.36088711654353
+\item[Avg..volume] 1.02158918501001
+\item[Age..mo.] 1.27210148432654
+\end{description*}
+
+
+
+    This still does not look good. Let's narrow down the features.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}20}]:} mod \PY{o}{\PYZlt{}\PYZhy{}} lm\PY{p}{(}label\PYZus{}growth\PYZus{}rate\PYZus{}Price \PY{o}{\PYZti{}} Circ..Supply \PY{o}{+} Total.Supply \PY{o}{+} \PY{l+m}{0}\PY{p}{,} 
+		data \PY{o}{=} price\PYZus{}train\PYZus{}data\PY{p}{)}
+
+         \PY{k+kp}{summary}\PY{p}{(}mod\PY{p}{)}
+
+         pred\PYZus{}lm \PY{o}{=} predict\PY{p}{(}mod\PY{p}{,} newdata \PY{o}{=} price\PYZus{}test\PYZus{}data\PY{p}{)}
+
+         all\PYZus{}metrics\PY{p}{(}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{,} pred\PYZus{}lm\PY{p}{,} 
+         price\PYZus{}train\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{verbatim}
+
+Call:
+lm(formula = label_growth_rate_Price ~ Circ..Supply + Total.Supply +
+    0, data = price_train_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-96.415  -0.701  -0.407   0.164 158.564
+
+Coefficients:
+               Estimate Std. Error t value Pr(>|t|)
+Circ..Supply -2.534e-03  8.533e-04   -2.97  0.00305 **
+Total.Supply  9.579e-12  3.097e-13   30.93  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 7.074 on 1017 degrees of freedom
+  (5 observations deleted due to missingness)
+Multiple R-squared:  0.485,	Adjusted R-squared:  0.484
+F-statistic: 478.9 on 2 and 1017 DF,  p-value: < 2.2e-16
+
+    \end{verbatim}
+
+
+    \begin{enumerate*}
+\item 547.59691212069
+\item 1.94101815834009
+\item -166.769645220578
+\end{enumerate*}
+
+
+
+    We can compare it to the baseline (predicting negative all the time). We
+assume that we invest the same amount of money in each coin, ignoring
+fees, and compute the result growth rate of our portfolio following our
+regression strategy and the baseline.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}29}]:} filter\PYZus{}vec \PY{o}{=} \PY{o}{!}\PY{k+kp}{is.na}\PY{p}{(}pred\PYZus{}lm\PY{p}{)}
+         \PY{k+kp}{sum}\PY{p}{(}\PY{p}{(}pred\PYZus{}lm\PY{o}{*}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{)}\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+         		\PY{o}{/}\PY{k+kp}{sum}\PY{p}{(}pred\PYZus{}lm\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+
+         \PY{c+c1}{\PYZsh{} Baseline}
+         \PY{k+kp}{sum}\PY{p}{(}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+         		\PY{o}{/}\PY{k+kp}{length}\PY{p}{(}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+    0.142130885876864
+
+
+    -0.342125271527515
+
+
+    We beat it!
+
+    \hypertarget{portfolio-determination-in-a-log-normal-stock-model}{%
+\subsubsection{Portfolio determination in a log normal stock
+model}\label{portfolio-determination-in-a-log-normal-stock-model}}
+
+    \begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\tightlist
+\item
+  Regression
+\end{enumerate}
+
+With our new log-normal assumption we can try to predict the difference
+of the logarithms of the price between March and December.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}30}]:} df\PY{o}{\PYZdl{}}price\PYZus{}log\PYZus{}diff \PY{o}{=} \PY{k+kp}{log}\PY{p}{(}df\PY{o}{\PYZdl{}}label\PYZus{}Price\PY{p}{)} \PY{o}{\PYZhy{}} \PY{k+kp}{log}\PY{p}{(}df\PY{o}{\PYZdl{}}Price\PY{p}{)} \PY{c+c1}{\PYZsh{} follow mu T + sigma B\PYZus{}T}
+
+         split \PY{o}{=} sample.split\PY{p}{(}df\PY{o}{\PYZdl{}}price\PYZus{}log\PYZus{}diff\PY{p}{,} SplitRatio \PY{o}{=} \PY{l+m}{0.7}\PY{p}{)}
+         price\PYZus{}train\PYZus{}data \PY{o}{\PYZlt{}\PYZhy{}} filter\PY{p}{(}df\PY{p}{,} split\PY{o}{==} \PY{k+kc}{TRUE}\PY{p}{)}
+         price\PYZus{}test\PYZus{}data \PY{o}{\PYZlt{}\PYZhy{}} filter\PY{p}{(}df\PY{p}{,} split\PY{o}{==} \PY{k+kc}{FALSE}\PY{p}{)}
+
+         price\PYZus{}train\PYZus{}data \PY{o}{=} price\PYZus{}train\PYZus{}data \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} filter\PY{p}{(}\PY{k+kp}{as.integer}\PY{p}{(}label\PYZus{}disappeared\PY{p}{)}\PY{o}{==}\PY{l+m}{1}\PY{p}{)} 
+         \PY{c+c1}{\PYZsh{} we keep label\PYZus{}disappeared = FALSE}
+         price\PYZus{}test\PYZus{}data \PY{o}{=} price\PYZus{}test\PYZus{}data \PY{o}{\PYZpc{}\PYZgt{}\PYZpc{}} filter\PY{p}{(}\PY{k+kp}{as.integer}\PY{p}{(}label\PYZus{}disappeared\PY{p}{)}\PY{o}{==}\PY{l+m}{1}\PY{p}{)}
+
+         mod\PYZus{}log \PY{o}{\PYZlt{}\PYZhy{}} lm\PY{p}{(}price\PYZus{}log\PYZus{}diff \PY{o}{\PYZti{}} Price \PY{o}{+} X1h \PY{o}{+} X24h \PY{o}{+} X7d \PY{o}{+} X14d \PY{o}{+} X30d \PY{o}{+} X45d \PY{o}{+} X90d \PY{o}{+} 
+         	X200d \PY{o}{+} Mkt..Cap \PY{o}{+} X24h.Vol \PY{o}{+} Circ..Supply \PY{o}{+} Total.Supply \PY{o}{+} Team \PY{o}{+} 
+         	Product \PY{o}{+} Coin \PY{o}{+} Social \PY{o}{+} Communication \PY{o}{+} Business \PY{o}{+} Avg..volume \PY{o}{+} Age..mo.\PY{p}{,} 
+         	data \PY{o}{=} price\PYZus{}train\PYZus{}data\PY{p}{)}
+
+         \PY{k+kp}{summary}\PY{p}{(}mod\PYZus{}log\PY{p}{)}
+
+         pred\PYZus{}lm \PY{o}{=} predict\PY{p}{(}mod\PYZus{}log\PY{p}{,} newdata \PY{o}{=} price\PYZus{}test\PYZus{}data\PY{p}{)}
+
+         all\PYZus{}metrics\PY{p}{(}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}price\PYZus{}log\PYZus{}diff\PY{p}{,} pred\PYZus{}lm\PY{p}{,} price\PYZus{}train\PYZus{}data\PY{o}{\PYZdl{}}price\PYZus{}log\PYZus{}diff\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{verbatim}
+
+Call:
+lm(formula = price_log_diff ~ Price + X1h + X24h + X7d + X14d +
+    X30d + X45d + X90d + X200d + Mkt..Cap + X24h.Vol + Circ..Supply +
+    Total.Supply + Team + Product + Coin + Social + Communication +
+    Business + Avg..volume + Age..mo., data = price_train_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-6.2257 -0.4446  0.0628  0.5709  3.8110
+
+Coefficients:
+                Estimate Std. Error t value Pr(>|t|)
+(Intercept)   -9.089e-01  1.915e-01  -4.747 2.37e-06 ***
+Price          2.427e-05  3.484e-05   0.697   0.4861
+X1h           -3.607e-03  5.843e-03  -0.617   0.5372
+X24h          -3.514e-03  1.624e-03  -2.164   0.0307 *
+X7d           -1.298e-03  1.028e-03  -1.262   0.2074
+X14d          -6.971e-04  3.174e-04  -2.196   0.0283 *
+X30d           5.989e-04  4.839e-04   1.238   0.2161
+X45d           6.502e-05  2.585e-04   0.252   0.8014
+X90d           5.886e-04  5.132e-04   1.147   0.2517
+X200d         -9.859e-04  5.229e-04  -1.885   0.0597 .
+Mkt..Cap      -2.969e-04  1.388e-04  -2.139   0.0327 *
+X24h.Vol      -7.968e-07  1.410e-04  -0.006   0.9955
+Circ..Supply   2.499e-04  1.455e-04   1.718   0.0862 .
+Total.Supply   1.668e-14  1.874e-14   0.890   0.3738
+Team           7.936e-03  5.567e-03   1.426   0.1543
+Product       -1.076e-03  1.750e-03  -0.615   0.5385
+Coin          -2.972e-03  2.195e-03  -1.354   0.1761
+Social        -7.665e-04  3.138e-03  -0.244   0.8071
+Communication  3.429e-04  1.144e-03   0.300   0.7645
+Business      -3.736e-03  1.468e-03  -2.544   0.0111 *
+Avg..volume    1.576e-10  1.418e-10   1.112   0.2665
+Age..mo.       3.241e-03  2.212e-03   1.465   0.1433
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.9755 on 978 degrees of freedom
+  (37 observations deleted due to missingness)
+Multiple R-squared:  0.05583,	Adjusted R-squared:  0.03555
+F-statistic: 2.754 on 21 and 978 DF,  p-value: 3.95e-05
+
+    \end{verbatim}
+
+
+    \begin{enumerate*}
+\item 1.37419565150063
+\item 0.786600323768397
+\item -0.0510270204478771
+\end{enumerate*}
+
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}31}]:} vif\PY{p}{(}mod\PYZus{}log\PY{p}{)}
+\end{Verbatim}
+
+    \begin{description*}
+\item[Price] 1.06407441227154
+\item[X1h] 1.07115978177007
+\item[X24h] 1.22544188241185
+\item[X7d] 1.31330264496053
+\item[X14d] 753.264205918813
+\item[X30d] 1730.32601194076
+\item[X45d] 491.069203199915
+\item[X90d] 10.6815410522711
+\item[X200d] 3.59844428634785
+\item[Mkt..Cap] 1.0247473315568
+\item[X24h.Vol] 1.02517852100103
+\item[Circ..Supply] 1.07871229383061
+\item[Total.Supply] 1.01891666805316
+\item[Team] 6.3719217947138
+\item[Product] 1.92537905891746
+\item[Coin] 1.86682147289798
+\item[Social] 3.14543604788404
+\item[Communication] 1.52506691080304
+\item[Business] 1.3559062673666
+\item[Avg..volume] 1.09292020780236
+\item[Age..mo.] 1.31230648270897
+\end{description*}
+
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}34}]:} mod\PYZus{}log \PY{o}{\PYZlt{}\PYZhy{}} lm\PY{p}{(}price\PYZus{}log\PYZus{}diff \PY{o}{\PYZti{}} Price \PY{o}{+} X1h \PY{o}{+} X24h \PY{o}{+} X7d \PY{o}{+} X14d \PY{o}{+} X90d \PY{o}{+} X200d \PY{o}{+}
+                     Mkt..Cap \PY{o}{+} X24h.Vol \PY{o}{+} Circ..Supply \PY{o}{+} Total.Supply \PY{o}{+} Team \PY{o}{+} Product \PY{o}{+} 
+                     Coin \PY{o}{+} Social \PY{o}{+} Communication \PY{o}{+} Business \PY{o}{+} Avg..volume \PY{o}{+} Age..mo.\PY{p}{,} 
+                     data \PY{o}{=} price\PYZus{}train\PYZus{}data\PY{p}{)}
+
+         \PY{k+kp}{summary}\PY{p}{(}mod\PYZus{}log\PY{p}{)}
+
+         pred\PYZus{}lm \PY{o}{=} predict\PY{p}{(}mod\PYZus{}log\PY{p}{,} newdata \PY{o}{=} price\PYZus{}test\PYZus{}data\PY{p}{)}
+
+         all\PYZus{}metrics\PY{p}{(}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}price\PYZus{}log\PYZus{}diff\PY{p}{,} pred\PYZus{}lm\PY{p}{,} price\PYZus{}train\PYZus{}data\PY{o}{\PYZdl{}}price\PYZus{}log\PYZus{}diff\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{verbatim}
+
+Call:
+lm(formula = price_log_diff ~ Price + X1h + X24h + X7d + X14d +
+    X90d + X200d + Mkt..Cap + X24h.Vol + Circ..Supply + Total.Supply +
+    Team + Product + Coin + Social + Communication + Business +
+    Avg..volume + Age..mo., data = price_train_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-6.1966 -0.4454  0.0553  0.5753  3.7657
+
+Coefficients:
+                Estimate Std. Error t value Pr(>|t|)
+(Intercept)   -9.555e-01  1.909e-01  -5.005 6.62e-07 ***
+Price          2.525e-05  3.491e-05   0.723 0.469718
+X1h           -3.627e-03  5.851e-03  -0.620 0.535459
+X24h          -3.597e-03  1.626e-03  -2.212 0.027225 *
+X7d           -1.328e-03  1.029e-03  -1.291 0.196887
+X14d          -4.881e-05  2.479e-05  -1.969 0.049266 *
+X90d           8.115e-04  4.038e-04   2.010 0.044752 *
+X200d         -1.469e-03  4.261e-04  -3.448 0.000589 ***
+Mkt..Cap      -2.973e-04  1.391e-04  -2.138 0.032777 *
+X24h.Vol      -6.626e-06  1.412e-04  -0.047 0.962579
+Circ..Supply   2.468e-04  1.458e-04   1.693 0.090731 .
+Total.Supply   1.546e-14  1.874e-14   0.825 0.409431
+Team           8.054e-03  5.568e-03   1.446 0.148377
+Product       -1.288e-03  1.751e-03  -0.735 0.462238
+Coin          -2.875e-03  2.198e-03  -1.308 0.191143
+Social        -5.695e-04  3.138e-03  -0.181 0.856039
+Communication  4.538e-04  1.145e-03   0.396 0.692061
+Business      -3.784e-03  1.471e-03  -2.573 0.010242 *
+Avg..volume    1.605e-10  1.420e-10   1.130 0.258656
+Age..mo.       3.300e-03  2.204e-03   1.497 0.134725
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.9776 on 980 degrees of freedom
+  (37 observations deleted due to missingness)
+Multiple R-squared:  0.04984,	Adjusted R-squared:  0.03142
+F-statistic: 2.706 on 19 and 980 DF,  p-value: 0.0001092
+
+    \end{verbatim}
+
+
+    \begin{enumerate*}
+\item 1.37718128083273
+\item 0.789451576546088
+\item -0.0533105214163541
+\end{enumerate*}
+
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}35}]:} vif\PY{p}{(}mod\PYZus{}log\PY{p}{)}
+\end{Verbatim}
+
+    \begin{description*}
+\item[Price] 1.06389350752336
+\item[X1h] 1.06954219074384
+\item[X24h] 1.22325176284725
+\item[X7d] 1.30815268834064
+\item[X14d] 4.57576438585392
+\item[X90d] 6.58402089382897
+\item[X200d] 2.37953671288416
+\item[Mkt..Cap] 1.02437219200182
+\item[X24h.Vol] 1.02414192975333
+\item[Circ..Supply] 1.07809508758456
+\item[Total.Supply] 1.01415980805924
+\item[Team] 6.34760662656953
+\item[Product] 1.92036647546332
+\item[Coin] 1.86268778843273
+\item[Social] 3.13312064680212
+\item[Communication] 1.52216803443362
+\item[Business] 1.3550512673174
+\item[Avg..volume] 1.09262600492207
+\item[Age..mo.] 1.29729721274557
+\end{description*}
+
+\bigskip
+
+    The VIF is okay now. Let's remove some features.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}38}]:} mod\PYZus{}log \PY{o}{\PYZlt{}\PYZhy{}} lm\PY{p}{(}price\PYZus{}log\PYZus{}diff \PY{o}{\PYZti{}} X24h \PY{o}{+} X200d \PY{o}{+} Mkt..Cap \PY{o}{+} Business\PY{p}{,} 
+			data \PY{o}{=} price\PYZus{}train\PYZus{}data\PY{p}{)}
+
+         \PY{k+kp}{summary}\PY{p}{(}mod\PYZus{}log\PY{p}{)}
+
+         pred\PYZus{}lm\PYZus{}log \PY{o}{=} predict\PY{p}{(}mod\PYZus{}log\PY{p}{,} newdata \PY{o}{=} price\PYZus{}test\PYZus{}data\PY{p}{)}
+
+         all\PYZus{}metrics\PY{p}{(}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}price\PYZus{}log\PYZus{}diff\PY{p}{,} pred\PYZus{}lm\PYZus{}log\PY{p}{,} 
+         		price\PYZus{}train\PYZus{}data\PY{o}{\PYZdl{}}price\PYZus{}log\PYZus{}diff\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{verbatim}
+
+Call:
+lm(formula = price_log_diff ~ X24h + X200d + Mkt..Cap + Business,
+    data = price_train_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-6.2460 -0.4330  0.0580  0.5923  3.9618
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.7949174  0.1167271  -6.810 1.68e-11 ***
+X24h        -0.0047998  0.0014715  -3.262  0.00114 **
+X200d       -0.0008992  0.0002755  -3.265  0.00113 **
+Mkt..Cap    -0.0003394  0.0001378  -2.464  0.01392 *
+Business    -0.0027869  0.0012598  -2.212  0.02717 *
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.9794 on 1000 degrees of freedom
+  (32 observations deleted due to missingness)
+Multiple R-squared:  0.03057,	Adjusted R-squared:  0.02669
+F-statistic: 7.883 on 4 and 1000 DF,  p-value: 2.956e-06
+
+    \end{verbatim}
+
+
+    \begin{enumerate*}
+\item 1.35643667936919
+\item 0.784982884758303
+\item -0.0401929076627052
+\end{enumerate*}
+
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}39}]:} filter\PYZus{}vec \PY{o}{=} \PY{o}{!}\PY{k+kp}{is.na}\PY{p}{(}pred\PYZus{}lm\PYZus{}log\PY{p}{)}
+         \PY{k+kp}{sum}\PY{p}{(}\PY{p}{(}\PY{k+kp}{exp}\PY{p}{(}pred\PYZus{}lm\PYZus{}log\PY{p}{)}\PY{o}{*}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{)}\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+         	\PY{o}{/}\PY{k+kp}{sum}\PY{p}{(}\PY{k+kp}{exp}\PY{p}{(}pred\PYZus{}lm\PYZus{}log\PY{p}{)}\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+
+         \PY{c+c1}{\PYZsh{} Baseline}
+         \PY{k+kp}{sum}\PY{p}{(}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+         	\PY{o}{/}\PY{k+kp}{length}\PY{p}{(}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+    0.461436810190696
+
+
+    0.439390893108447
+
+
+    That's fine but not amazing, let's think a bit and try something else.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}40}]:} mod\PYZus{}log \PY{o}{\PYZlt{}\PYZhy{}} lm\PY{p}{(}price\PYZus{}log\PYZus{}diff \PY{o}{\PYZti{}} X7d \PY{o}{+} Mkt..Cap \PY{o}{+} Age..mo.\PY{p}{,} data \PY{o}{=} price\PYZus{}train\PYZus{}data\PY{p}{)}
+
+         \PY{k+kp}{summary}\PY{p}{(}mod\PYZus{}log\PY{p}{)}
+
+         pred\PYZus{}lm\PYZus{}log \PY{o}{=} predict\PY{p}{(}mod\PYZus{}log\PY{p}{,} newdata \PY{o}{=} price\PYZus{}test\PYZus{}data\PY{p}{)}
+
+         all\PYZus{}metrics\PY{p}{(}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}price\PYZus{}log\PYZus{}diff\PY{p}{,} pred\PYZus{}lm\PYZus{}log\PY{p}{,} 
+         		price\PYZus{}train\PYZus{}data\PY{o}{\PYZdl{}}price\PYZus{}log\PYZus{}diff\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{verbatim}
+
+Call:
+lm(formula = price_log_diff ~ X7d + Mkt..Cap + Age..mo., data = price_train_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-6.3005 -0.4493  0.0632  0.5849  3.9844
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -1.0571347  0.0505030 -20.932   <2e-16 ***
+X7d         -0.0016871  0.0009027  -1.869   0.0619 .
+Mkt..Cap    -0.0003295  0.0001397  -2.359   0.0185 *
+Age..mo.     0.0041164  0.0019420   2.120   0.0343 *
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.9966 on 1033 degrees of freedom
+Multiple R-squared:  0.01299,	Adjusted R-squared:  0.01012
+F-statistic: 4.531 on 3 and 1033 DF,  p-value: 0.003655
+
+    \end{verbatim}
+
+
+    \begin{enumerate*}
+\item 1.3321906348193
+\item 0.766205419022985
+\item 0.0152780706337514
+\end{enumerate*}
+
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}41}]:} filter\PYZus{}vec \PY{o}{=} \PY{o}{!}\PY{k+kp}{is.na}\PY{p}{(}pred\PYZus{}lm\PYZus{}log\PY{p}{)}
+         \PY{k+kp}{sum}\PY{p}{(}\PY{p}{(}\PY{k+kp}{exp}\PY{p}{(}pred\PYZus{}lm\PYZus{}log\PY{p}{)}\PY{o}{*}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{)}\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+         	\PY{o}{/}\PY{k+kp}{sum}\PY{p}{(}\PY{k+kp}{exp}\PY{p}{(}pred\PYZus{}lm\PYZus{}log\PY{p}{)}\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+
+         \PY{c+c1}{\PYZsh{} Baseline}
+         \PY{k+kp}{sum}\PY{p}{(}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+         	\PY{o}{/}\PY{k+kp}{length}\PY{p}{(}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+    0.500360688948723
+
+
+    0.412744498999508
+
+
+    Much better already! We see that filtering out coisn where informations
+are missing, our portfolio behaves already better! That's because
+trustworthy coins get all their information filled.
+
+    \begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Random forest
+\end{enumerate}
+
+    We take the features from the 2 previous models and we try it out on a
+random forest.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}50}]:} price\PYZus{}test\PYZus{}data\PYZus{}filled\PYZus{}with\PYZus{}0 \PY{o}{\PYZlt{}\PYZhy{}} price\PYZus{}test\PYZus{}data
+         price\PYZus{}test\PYZus{}data\PYZus{}filled\PYZus{}with\PYZus{}0\PY{p}{[}\PY{k+kp}{is.na}\PY{p}{(}price\PYZus{}test\PYZus{}data\PYZus{}filled\PYZus{}with\PYZus{}0\PY{p}{)}\PY{p}{]} \PY{o}{\PYZlt{}\PYZhy{}} \PY{l+m}{0}
+         price\PYZus{}test\PYZus{}data\PYZus{}log.mm \PY{o}{=} \PY{k+kp}{as.data.frame}\PY{p}{(}model.matrix\PY{p}{(}price\PYZus{}log\PYZus{}diff \PY{o}{\PYZti{}} X24h \PY{o}{+} X7d \PY{o}{+} 
+         	X200d \PY{o}{+} Mkt..Cap \PY{o}{+} Age..mo. \PY{o}{+} Business\PY{p}{,} data \PY{o}{=} price\PYZus{}test\PYZus{}data\PYZus{}filled\PYZus{}with\PYZus{}0\PY{p}{)}\PY{p}{)}
+
+         train.rf \PY{o}{\PYZlt{}\PYZhy{}} train\PY{p}{(}price\PYZus{}log\PYZus{}diff \PY{o}{\PYZti{}} X24h \PY{o}{+} X7d \PY{o}{+} X200d \PY{o}{+} Mkt..Cap \PY{o}{+} Age..mo. \PY{o}{+} 
+                           Business\PY{p}{,}
+                           data \PY{o}{=} price\PYZus{}train\PYZus{}data\PY{p}{,}
+                           method \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{rf\PYZdq{}}\PY{p}{,}
+                           na.action  \PY{o}{=} na.omit\PY{p}{,}
+                           tuneGrid \PY{o}{=} \PY{k+kt}{data.frame}\PY{p}{(}mtry\PY{o}{=}\PY{l+m}{1}\PY{o}{:}\PY{l+m}{6}\PY{p}{)}\PY{p}{,}
+                           trControl \PY{o}{=} trainControl\PY{p}{(}method\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{cv\PYZdq{}}\PY{p}{,} number\PY{o}{=}\PY{l+m}{5}\PY{p}{)}\PY{p}{,}
+                           distribution\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{gaussian\PYZdq{}}\PY{p}{,}
+                           metric \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{RMSE\PYZdq{}}\PY{p}{)}
+         train.rf\PY{o}{\PYZdl{}}results
+         train.rf
+         best.rf \PY{o}{\PYZlt{}\PYZhy{}} train.rf\PY{o}{\PYZdl{}}finalModel
+         pred.rf \PY{o}{\PYZlt{}\PYZhy{}} predict\PY{p}{(}best.rf\PY{p}{,} newdata \PY{o}{=} price\PYZus{}test\PYZus{}data\PYZus{}log.mm\PY{p}{)}
+         all\PYZus{}metrics\PY{p}{(}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}price\PYZus{}log\PYZus{}diff\PY{p}{,} pred\PYZus{}lm\PYZus{}log\PY{p}{,} 
+         	price\PYZus{}train\PYZus{}data\PY{o}{\PYZdl{}}price\PYZus{}log\PYZus{}diff\PY{p}{)}
+\end{Verbatim}
+
+\begin{tabular}{r|lllllll}
+ mtry & RMSE & Rsquared & MAE & RMSESD & RsquaredSD & MAESD\\
+ <int> & <dbl> & <dbl> & <dbl> & <dbl> & <dbl> & <dbl>\\
+\hline
+	 1 & 0.9868626 & 0.02396270 & 0.7021205 & 0.09754761 & 0.03461219 & 0.04148504\\
+	 2 & 1.0030523 & 0.02013034 & 0.7180743 & 0.09988699 & 0.03206543 & 0.03882143\\
+	 3 & 1.0138758 & 0.01549198 & 0.7273112 & 0.10018572 & 0.02833747 & 0.03858953\\
+	 4 & 1.0172491 & 0.01483976 & 0.7298685 & 0.09965039 & 0.02697329 & 0.04055537\\
+	 5 & 1.0190250 & 0.01714539 & 0.7307562 & 0.10116483 & 0.03156220 & 0.03939837\\
+	 6 & 1.0224764 & 0.01754349 & 0.7330653 & 0.10168716 & 0.03172612 & 0.04190727\\
+\end{tabular}
+
+
+
+
+    \begin{verbatim}
+Random Forest
+
+1037 samples
+   6 predictor
+
+No pre-processing
+Resampling: Cross-Validated (5 fold)
+Summary of sample sizes: 804, 805, 805, 804, 802
+Resampling results across tuning parameters:
+
+  mtry  RMSE       Rsquared    MAE
+  1     0.9868626  0.02396270  0.7021205
+  2     1.0030523  0.02013034  0.7180743
+  3     1.0138758  0.01549198  0.7273112
+  4     1.0172491  0.01483976  0.7298685
+  5     1.0190250  0.01714539  0.7307562
+  6     1.0224764  0.01754349  0.7330653
+
+RMSE was used to select the optimal model using the smallest value.
+The final value used for the model was mtry = 1.
+    \end{verbatim}
+
+
+    \begin{enumerate*}
+\item 1.3321906348193
+\item 0.766205419022985
+\item 0.0152780706337514
+\end{enumerate*}
+
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}51}]:} ggplot\PY{p}{(}train.rf\PY{o}{\PYZdl{}}results\PY{p}{,} aes\PY{p}{(}x \PY{o}{=} mtry\PY{p}{,} y \PY{o}{=} Rsquared\PY{p}{)}\PY{p}{)} \PY{o}{+} geom\PYZus{}point\PY{p}{(}size \PY{o}{=} \PY{l+m}{3}\PY{p}{)} \PY{o}{+}
+           ylab\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{CV Rsquared\PYZdq{}}\PY{p}{)} \PY{o}{+} theme\PYZus{}bw\PY{p}{(}\PY{p}{)} \PY{o}{+} theme\PY{p}{(}axis.title\PY{o}{=}element\PYZus{}text\PY{p}{(}size\PY{o}{=}\PY{l+m}{18}\PY{p}{)}\PY{p}{,} 
+           axis.text\PY{o}{=}element\PYZus{}text\PY{p}{(}size\PY{o}{=}\PY{l+m}{18}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_48_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    The best value is 1 for mtry.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}52}]:} filter\PYZus{}vec \PY{o}{=} \PY{o}{!}\PY{k+kp}{is.na}\PY{p}{(}pred.rf\PY{p}{)}
+         \PY{k+kp}{sum}\PY{p}{(}\PY{p}{(}\PY{k+kp}{exp}\PY{p}{(}pred.rf\PY{p}{)}\PY{o}{*}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{)}\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+         	\PY{o}{/}\PY{k+kp}{sum}\PY{p}{(}\PY{k+kp}{exp}\PY{p}{(}pred.rf\PY{p}{)}\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+
+         \PY{c+c1}{\PYZsh{} Baseline}
+         \PY{k+kp}{sum}\PY{p}{(}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+         	\PY{o}{/}\PY{k+kp}{length}\PY{p}{(}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+    0.318126401502254
+
+
+    0.410949916909122
+
+
+    Unfortunately this model does not beat the baseline.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Boosting
+\end{enumerate}
+
+    We use the same features.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}54}]:} tGrid \PY{o}{=} \PY{k+kp}{expand.grid}\PY{p}{(}n.trees \PY{o}{=} \PY{p}{(}\PY{l+m}{1}\PY{o}{:}\PY{l+m}{10}\PY{p}{)}\PY{o}{*}\PY{l+m}{1000}\PY{p}{,} interaction.depth \PY{o}{=} \PY{k+kt}{c}\PY{p}{(}\PY{l+m}{1}\PY{p}{,}\PY{l+m}{2}\PY{p}{,}\PY{l+m}{4}\PY{p}{,}\PY{l+m}{6}\PY{p}{,}\PY{l+m}{8}\PY{p}{,}\PY{l+m}{10}\PY{p}{)}\PY{p}{,}
+                             shrinkage \PY{o}{=} \PY{l+m}{0.001}\PY{p}{,} n.minobsinnode \PY{o}{=} \PY{l+m}{10}\PY{p}{)}
+
+         \PY{k+kp}{set.seed}\PY{p}{(}\PY{l+m}{42}\PY{p}{)}
+         train.boost \PY{o}{\PYZlt{}\PYZhy{}} train\PY{p}{(}price\PYZus{}log\PYZus{}diff \PY{o}{\PYZti{}} X24h \PY{o}{+} X7d \PY{o}{+} X200d \PY{o}{+} Mkt..Cap \PY{o}{+} Age..mo. \PY{o}{+} 
+                              Business\PY{p}{,}
+                              data \PY{o}{=} price\PYZus{}train\PYZus{}data\PY{p}{,}
+                              method \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{gbm\PYZdq{}}\PY{p}{,}   \PY{c+c1}{\PYZsh{}\PYZsh{} gradient boosting machine }
+                              tuneGrid \PY{o}{=} tGrid\PY{p}{,}
+                              trControl \PY{o}{=} trainControl\PY{p}{(}method\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{cv\PYZdq{}}\PY{p}{,} number\PY{o}{=}\PY{l+m}{5}\PY{p}{)}\PY{p}{,}
+                              distribution \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{gaussian\PYZdq{}}\PY{p}{,}
+                              metric \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{RMSE\PYZdq{}}\PY{p}{,}
+                              na.action \PY{o}{=} na.omit\PY{p}{)}
+         train.boost
+         best.boost \PY{o}{\PYZlt{}\PYZhy{}} train.boost\PY{o}{\PYZdl{}}finalModel
+
+         ggplot\PY{p}{(}train.boost\PY{o}{\PYZdl{}}results\PY{p}{,} aes\PY{p}{(}x \PY{o}{=} n.trees\PY{p}{,} y \PY{o}{=} Rsquared\PY{p}{,} colour \PY{o}{=} 
+           \PY{k+kp}{as.factor}\PY{p}{(}interaction.depth\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{o}{+} geom\PYZus{}line\PY{p}{(}\PY{p}{)} \PY{o}{+}
+           ylab\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{CV Rsquared\PYZdq{}}\PY{p}{)} \PY{o}{+} theme\PYZus{}bw\PY{p}{(}\PY{p}{)} \PY{o}{+} theme\PY{p}{(}axis.title\PY{o}{=}element\PYZus{}text\PY{p}{(}size\PY{o}{=}\PY{l+m}{18}\PY{p}{)}\PY{p}{,}
+           axis.text\PY{o}{=}element\PYZus{}text\PY{p}{(}size\PY{o}{=}\PY{l+m}{18}\PY{p}{)}\PY{p}{)} \PY{o}{+}
+           scale\PYZus{}color\PYZus{}discrete\PY{p}{(}name \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{interaction.depth\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{verbatim}
+Stochastic Gradient Boosting
+
+1037 samples
+   6 predictor
+
+No pre-processing
+Resampling: Cross-Validated (5 fold)
+Summary of sample sizes: 803, 804, 805, 804, 804
+
+Tuning parameter 'shrinkage' was held constant at a value of 0.001
+
+Tuning parameter 'n.minobsinnode' was held constant at a value of 10
+RMSE was used to select the optimal model using the smallest value.
+The final values used for the model were n.trees = 1000, interaction.depth =
+ 6, shrinkage = 0.001 and n.minobsinnode = 10.
+    \end{verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_53_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    The best parameters are the biggest ones.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}56}]:} pred.best.boost \PY{o}{\PYZlt{}\PYZhy{}} predict\PY{p}{(}best.boost\PY{p}{,} newdata \PY{o}{=} price\PYZus{}test\PYZus{}data\PYZus{}log.mm\PY{p}{,} 
+	n.trees \PY{o}{=} \PY{l+m}{10000}\PY{p}{,} interaction.depth\PY{o}{=}\PY{l+m}{10}\PY{p}{)} \PY{c+c1}{\PYZsh{} from CV plot}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Warning message in predict.gbm(best.boost, newdata = price\_test\_data\_log.mm, n.trees = 10000, :
+“Number of trees not specified or exceeded number fit so far. Using 1000.”
+    \end{Verbatim}
+
+    It does not want to do it so we need to do it ourselves.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}63}]:} \PY{k+kn}{library}\PY{p}{(}gbm\PY{p}{)}
+
+         mod.boost \PY{o}{\PYZlt{}\PYZhy{}} gbm\PY{p}{(}price\PYZus{}log\PYZus{}diff \PY{o}{\PYZti{}} X24h \PY{o}{+} X7d \PY{o}{+} X200d \PY{o}{+} Mkt..Cap \PY{o}{+} Age..mo. \PY{o}{+} Business\PY{p}{,}
+                              data \PY{o}{=} price\PYZus{}train\PYZus{}data\PY{p}{,}
+                              distribution \PY{o}{=} \PY{l+s}{\PYZdq{}}\PY{l+s}{gaussian\PYZdq{}}\PY{p}{,}
+                              n.trees \PY{o}{=} \PY{l+m}{10000}\PY{p}{,}
+                              shrinkage \PY{o}{=} \PY{l+m}{0.001}\PY{p}{,}
+                              interaction.depth \PY{o}{=} \PY{l+m}{10}\PY{p}{)}
+
+         \PY{c+c1}{\PYZsh{} NOTE: we need to specify number of trees to get a prediction for boosting}
+         pred.boost \PY{o}{\PYZlt{}\PYZhy{}} predict\PY{p}{(}mod.boost\PY{p}{,} newdata \PY{o}{=} price\PYZus{}test\PYZus{}data\PYZus{}log.mm\PY{p}{,} n.trees\PY{o}{=}\PY{l+m}{10000}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}64}]:} filter\PYZus{}vec \PY{o}{=} \PY{o}{!}\PY{k+kp}{is.na}\PY{p}{(}pred.boost\PY{p}{)}
+         \PY{k+kp}{sum}\PY{p}{(}\PY{p}{(}\PY{k+kp}{exp}\PY{p}{(}pred.boost\PY{p}{)}\PY{o}{*}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{)}\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+         	\PY{o}{/}\PY{k+kp}{sum}\PY{p}{(}\PY{k+kp}{exp}\PY{p}{(}pred.boost\PY{p}{)}\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+
+         \PY{c+c1}{\PYZsh{} Baseline}
+         \PY{k+kp}{sum}\PY{p}{(}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+         	\PY{o}{/}\PY{k+kp}{length}\PY{p}{(}price\PYZus{}test\PYZus{}data\PY{o}{\PYZdl{}}label\PYZus{}growth\PYZus{}rate\PYZus{}Price\PY{p}{[}filter\PYZus{}vec\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+    0.290123603135029
+
+
+    0.410949916909122
+
+
+    This is also very bad compared to the baseline. Too much overfitting!
+
+
+    % Add a bibliography block to the postdoc
+
+
+
+    \end{document}
